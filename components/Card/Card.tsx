@@ -143,7 +143,7 @@ const Card: React.FC<CardProps> = ({navigation, name, style}) => {
 
   return (
     <>
-     
+
       <SearchBoxContainer>
         <SearchBox>
           <Image

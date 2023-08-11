@@ -22,4 +22,5 @@ export const CardExpandedCard = styled.View({
 export const CardText = styled.Text({
   color: 'white',
   fontSize: 16,
+  paddingBottom: '30px',
 });
