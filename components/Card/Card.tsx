@@ -7,6 +7,8 @@ import {
   FlatList,
   StatusBar,
   SafeAreaView,
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import {CardProps} from './props';
 import {
@@ -143,7 +145,6 @@ const Card: React.FC<CardProps> = ({navigation, name, style}) => {
 
   return (
     <>
-
       <SearchBoxContainer>
         <SearchBox>
           <Image
@@ -178,6 +179,7 @@ const Card: React.FC<CardProps> = ({navigation, name, style}) => {
           )}
         </CenteredView>
       </BlackBackgroundView>
+    
     </>
   );
 };

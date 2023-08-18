@@ -24,3 +24,9 @@ export const CardText = styled.Text({
   fontSize: 16,
   paddingBottom: '30px',
 });
+
+export const ModalFlexAligned_View = styled.View({
+  // display: 'flex',
+  // alignItems: 'flex-start',
+  // justifyContent: 'flex-end',
+});

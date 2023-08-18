@@ -8,9 +8,16 @@ import {
   Modal,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {CardExpandedProps} from './props';
-import {CardExpandedContainer, CardExpandedCard, CardText} from './styles';
+import {
+  CardExpandedContainer,
+  CardExpandedCard,
+  CardText,
+  ModalFlexAligned_View,
+} from './styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const CardExpanded: React.FC<CardExpandedProps> = ({route, navigation}) => {
@@ -23,26 +30,35 @@ const CardExpanded: React.FC<CardExpandedProps> = ({route, navigation}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>{item?.title}</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Close</Text>
-            </Pressable>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.centeredView}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalView}>
+                <View>
+                  <Text style={styles.modalText}>{item?.title}</Text>
+                </View>
+                <View>
+                  <Pressable
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles.textStyle}>Close</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
+
       <StatusBar
         animated={true}
         backgroundColor="#383535"
         barStyle="light-content"
         networkActivityIndicatorVisible={false}
       />
+
       <CardExpandedContainer>
         <CardExpandedCard>
           <CardText>{item?.description}</CardText>
@@ -53,6 +69,24 @@ const CardExpanded: React.FC<CardExpandedProps> = ({route, navigation}) => {
               onPress={() => setModalVisible(true)}
             />
           )}
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                navigation !== undefined &&
+                  navigation.navigate('PropsChecking');
+              }}
+              style={{
+                width: 300,
+                height: 100,
+                backgroundColor: 'red',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: 'white', fontSize: 18}}>
+                Click PropsChecking page
+              </Text>
+            </TouchableOpacity>
+          </View>
         </CardExpandedCard>
       </CardExpandedContainer>
     </SafeAreaView>
@@ -62,15 +96,18 @@ const CardExpanded: React.FC<CardExpandedProps> = ({route, navigation}) => {
 const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    marginTop: 5,
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+    borderRadius: 10,
+    width: '98%',
+    padding: 15,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -82,7 +119,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 8,
     padding: 10,
     elevation: 2,
   },
@@ -98,9 +135,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
     textAlign: 'center',
     color: 'black',
+    fontWeight: '700',
   },
 });
 
