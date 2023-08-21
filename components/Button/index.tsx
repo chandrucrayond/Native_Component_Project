@@ -12,11 +12,6 @@ import {
   ViewStyle,
   GestureResponderEvent,
   LayoutChangeEvent,
-  PressableStateCallbackType,
-  useAnimatedValue,
-  Insets,
-  NativeSyntheticEvent,
-  TargetedEvent,
 } from 'react-native';
 import {styles, radius} from './styles';
 import PropTypes from 'prop-types';
@@ -26,7 +21,7 @@ const Button = ({
   children,
   rippleColor = 'rgb(0, 0, 0)',
   rippleOpacity = 0.3,
-  rippleDuration = 1000,
+  rippleDuration = 400,
   rippleSize = 0,
   rippleContainerBorderRadius,
   rippleCentered = false,
@@ -34,11 +29,13 @@ const Button = ({
   rippleFades = true,
   onRippleAnimation = (animation, callback) => animation.start(callback),
   disabled,
+  textColor,
+  backgroundColor,
   buttonStyle = {
     backgroundColor: '#42a5f5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // padding: 10,
     borderRadius: 6,
   },
   textStyle,
@@ -228,11 +225,12 @@ const Button = ({
   };
 
   const containerStyle: StyleProp<ViewStyle> = {
-    borderRadius: rippleContainerBorderRadius !== null
-      ? (buttonStyle as any)?.borderRadius
-      : rippleContainerBorderRadius,
+    borderRadius:
+      rippleContainerBorderRadius !== null
+        ? (buttonStyle as any)?.borderRadius
+        : rippleContainerBorderRadius,
   };
-  
+
   function normalize(input: any) {
     return input;
   }
@@ -246,7 +244,11 @@ const Button = ({
   if (variant === 'outlined') {
     variantStyle.backgroundColor = 'transparent';
     variantStyle.borderWidth = 1;
-    variantStyle.borderColor = 'black';
+    if (textColor !== undefined) {
+      variantStyle.borderColor = textColor;
+    } else {
+      variantStyle.borderColor = 'transparent';
+    }
   }
 
   if (variant === 'text') {
@@ -262,16 +264,25 @@ const Button = ({
         style={{
           ...buttonStyle,
           ...(variant === 'outlined' || variant === 'text' ? variantStyle : {}),
+          opacity: disabled === true ? 0.5 : 1,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
         }}
         pointerEvents="box-only">
         {typeof children === 'string' ? (
-          <Text style={textStyle}>{normalize(children)}</Text>
+          <Text
+            numberOfLines={1}
+            style={{
+              ...textStyle,
+              textAlign: 'center',
+            }}>
+            {children}
+          </Text>
         ) : (
           normalize(children)
         )}
+
         <View style={[styles.container, containerStyle]}>
           {ripples.map(renderRipple)}
         </View>
@@ -280,20 +291,8 @@ const Button = ({
   );
 };
 
-Button.propTypes = {
-  ...Animated.View.propTypes,
-  // ...TouchableWithoutFeedback,
-
-  rippleColor: PropTypes.string,
-  rippleOpacity: PropTypes.number,
-  rippleDuration: PropTypes.number,
-  rippleSize: PropTypes.number,
-  rippleContainerBorderRadius: PropTypes.number,
-  rippleCentered: PropTypes.bool,
-  rippleSequential: PropTypes.bool,
-  rippleFades: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onRippleAnimation: PropTypes.func,
-};
+// Button.propTypes = {
+//   ...Animated.View.propTypes,
+// };
 
 export default Button;

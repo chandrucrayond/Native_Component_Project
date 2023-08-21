@@ -38,8 +38,13 @@ export interface RippleProps extends ViewProps {
   delayPressOut?: number | undefined;
 
   buttonStyle?: object;
-  textStyle? : object;
+  textStyle?: object;
   variant?: 'outlined' | 'contained' | 'text';
+  textColor?: string;
+  backgroundColor?: string;
+  height?: number;
+  width?: number;
+  fontSize?: number;
 }
 
 export type TouchableProps = PressableStateCallbackType & {
@@ -57,5 +62,4 @@ export type TouchableProps = PressableStateCallbackType & {
   hitSlop?: null | Insets | number | undefined;
   id?: string | undefined;
   onDoublePress?: (event: GestureResponderEvent) => void;
-
 };
