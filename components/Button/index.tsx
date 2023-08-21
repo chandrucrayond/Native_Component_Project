@@ -13,9 +13,9 @@ import {
   GestureResponderEvent,
   LayoutChangeEvent,
 } from 'react-native';
-import {styles, radius} from './styles';
+import {ButtonContainer, ButtonText, Container, radius, Ripple} from './styles';
 import PropTypes from 'prop-types';
-import {RippleProps, TouchableProps} from './props';
+import {ButtonProps_All, Touchable_Function_Props} from './props';
 
 const Button = ({
   children,
@@ -29,16 +29,20 @@ const Button = ({
   rippleFades = true,
   onRippleAnimation = (animation, callback) => animation.start(callback),
   disabled,
+
   textColor,
+  textSize,
+  textWeight,
+
   backgroundColor,
-  buttonStyle = {
-    backgroundColor: '#42a5f5',
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // padding: 10,
-    borderRadius: 6,
-  },
-  textStyle,
+  buttonHeight,
+  buttonWidth,
+  margin,
+  padding,
+  borderRadius,
+  borderColor,
+  borderWidth,
+
   variant,
   delayPressIn,
   delayPressOut,
@@ -46,7 +50,7 @@ const Button = ({
   hitSlop,
   id,
   ...props
-}: RippleProps) => {
+}: ButtonProps_All) => {
   const [width, setWidth] = useState<number>(0);
   const [height, setHeight] = useState<number>(0);
   const [ripples, setRipples] = useState<
@@ -81,9 +85,6 @@ const Button = ({
   };
 
   const onPress = (event: GestureResponderEvent) => {
-    // const {rippleSequential} = props;
-
-    // if (rippleSequential!==true || !ripples.length) {
     event.persist();
     const {onPress} = props;
     const {onDoublePress} = props;
@@ -105,7 +106,6 @@ const Button = ({
     }
 
     startRipple(event);
-    // }
   };
 
   const onLongPress = (event: GestureResponderEvent) => {
@@ -202,33 +202,25 @@ const Button = ({
         : rippleOpacity,
     };
 
-    return <Animated.View style={[styles.ripple, rippleStyle]} key={unique} />;
+    return <Ripple style={[rippleStyle]} key={unique} />;
   };
 
   mountedRef.current = true;
 
-  const touchableProps: TouchableProps = {
-    ...props,
+  const touchableProps: Touchable_Function_Props = {
+    // ...props,
     onPress,
     onPressIn,
     onPressOut,
     onLongPress,
     onLayout,
-    pressed: false,
-
     delayLongPress,
     delayPressIn,
     delayPressOut,
     hitSlop,
     id,
     disabled,
-  };
-
-  const containerStyle: StyleProp<ViewStyle> = {
-    borderRadius:
-      rippleContainerBorderRadius !== null
-        ? (buttonStyle as any)?.borderRadius
-        : rippleContainerBorderRadius,
+    pressed: false,
   };
 
   function normalize(input: any) {
@@ -237,7 +229,7 @@ const Button = ({
 
   let variantStyle = {
     backgroundColor: 'none',
-    borderWidth: 0,
+    borderWidth: 1,
     borderColor: 'none',
   };
 
@@ -257,42 +249,49 @@ const Button = ({
     variantStyle.borderColor = 'transparent';
   }
 
+  if (variant === 'contained') {
+    if (backgroundColor !== undefined) {
+      variantStyle.backgroundColor = backgroundColor;
+    }
+    variantStyle.borderWidth = 1;
+    if (borderColor !== undefined) {
+      variantStyle.borderColor = borderColor;
+    }
+  }
+
   return (
     <TouchableWithoutFeedback {...touchableProps}>
-      <Animated.View
-        {...props}
+      <ButtonContainer
+        $backgroundColor={backgroundColor}
+        $height={normalize(buttonHeight)}
+        $width={normalize(buttonWidth)}
+        $margin={normalize(margin)}
+      
+        $borderRadius={normalize(borderRadius)}
+        $borderColor={borderColor}
+        $borderWidth={normalize(borderWidth)}
         style={{
-          ...buttonStyle,
-          ...(variant === 'outlined' || variant === 'text' ? variantStyle : {}),
+          ...variantStyle,
           opacity: disabled === true ? 0.5 : 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-        pointerEvents="box-only">
+        }}>
         {typeof children === 'string' ? (
-          <Text
-            numberOfLines={1}
-            style={{
-              ...textStyle,
-              textAlign: 'center',
-            }}>
+          <ButtonText
+            $textColor={textColor}
+            $textSize={normalize(textSize)}
+            $textWeight={normalize(textWeight)}
+            $width={buttonWidth}
+            $padding={normalize(padding)}
+            numberOfLines={buttonWidth && buttonHeight ? 1 : undefined}>
             {children}
-          </Text>
+          </ButtonText>
         ) : (
-          normalize(children)
+          children
         )}
 
-        <View style={[styles.container, containerStyle]}>
-          {ripples.map(renderRipple)}
-        </View>
-      </Animated.View>
+        <Container>{ripples.map(renderRipple)}</Container>
+      </ButtonContainer>
     </TouchableWithoutFeedback>
   );
 };
-
-// Button.propTypes = {
-//   ...Animated.View.propTypes,
-// };
 
 export default Button;

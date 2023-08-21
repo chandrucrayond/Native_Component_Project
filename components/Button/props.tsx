@@ -1,18 +1,14 @@
 import {
   Animated,
   ViewProps,
-  StyleProp,
-  ViewStyle,
   GestureResponderEvent,
   LayoutChangeEvent,
   PressableStateCallbackType,
   Insets,
-  NativeSyntheticEvent,
-  TargetedEvent,
 } from 'react-native';
 import {ReactNode} from 'react';
 
-export interface RippleProps extends ViewProps {
+export interface ButtonProps_All extends ViewProps {
   children?: ReactNode | string;
   rippleColor?: string;
   rippleOpacity?: number;
@@ -26,40 +22,53 @@ export interface RippleProps extends ViewProps {
     animation: Animated.CompositeAnimation,
     callback: () => void,
   ) => void;
+
+
+  // Button props
+  variant?: 'outlined' | 'contained' | 'text';
+  backgroundColor?: string;
+  buttonHeight?: number;
+  buttonWidth?: number;
+  margin?: number;
+  padding?: number;
+  borderRadius?: number;
+  borderColor?: string;
+  borderWidth?: number;
+
+
+  //Text props
+  textColor?: string;
+  textSize?: number | string;
+  textWeight?: number;
+
+
+  //Touchable function props
   onPress?: (event: GestureResponderEvent) => void;
-  onLongPress?: (event: GestureResponderEvent) => void;
+  onDoublePress?: (event: GestureResponderEvent) => void;
   onPressIn?: (event: GestureResponderEvent) => void;
   onPressOut?: (event: GestureResponderEvent) => void;
-  onDoublePress?: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
+  onLayout?: (event: LayoutChangeEvent) => void;
   disabled?: boolean;
-  // Added props
   delayLongPress?: number | undefined;
   delayPressIn?: number | undefined;
   delayPressOut?: number | undefined;
-
-  buttonStyle?: object;
-  textStyle?: object;
-  variant?: 'outlined' | 'contained' | 'text';
-  textColor?: string;
-  backgroundColor?: string;
-  height?: number;
-  width?: number;
-  fontSize?: number;
+  hitSlop?:   Insets | undefined; 
+  id?: string | undefined;
+}
+export interface Touchable_Function_Props extends PressableStateCallbackType {
+  children?: ReactNode | string;
+  onPress?: (event: GestureResponderEvent) => void;
+  onDoublePress?: (event: GestureResponderEvent) => void;
+  onPressIn?: (event: GestureResponderEvent) => void;
+  onPressOut?: (event: GestureResponderEvent) => void;
+  onLongPress?: (event: GestureResponderEvent) => void;
+  onLayout?: (event: LayoutChangeEvent) => void;
+  disabled?: boolean;
+  delayLongPress?: number | undefined;
+  delayPressIn?: number | undefined;
+  delayPressOut?: number | undefined;
+  hitSlop?:  | Insets | number | undefined; 
+  id?: string | undefined;
 }
 
-export type TouchableProps = PressableStateCallbackType & {
-  onPress?: (event: GestureResponderEvent) => void;
-  onPressIn?: (event: GestureResponderEvent) => void;
-  onPressOut?: (event: GestureResponderEvent) => void;
-  onLongPress?: (event: GestureResponderEvent) => void;
-  onLayout: (event: LayoutChangeEvent) => void;
-  disabled?: boolean;
-
-  // Added props
-  delayLongPress?: number | undefined;
-  delayPressIn?: number | undefined;
-  delayPressOut?: number | undefined;
-  hitSlop?: null | Insets | number | undefined;
-  id?: string | undefined;
-  onDoublePress?: (event: GestureResponderEvent) => void;
-};

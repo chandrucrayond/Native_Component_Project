@@ -63,11 +63,9 @@ export const StyledTitle = styled.Text({
   paddingBottom: '10px',
 });
 
-export const CardView = styled.TouchableOpacity.attrs(props => ({}))({
-  backgroundColor: '#2b2a2a',
-  borderRadius: 8,
-  height: '170px',
-  padding: '20px',
-  marginTop: '15px',
-  marginBottom: '10px',
+export const CardView = styled.TouchableOpacity.attrs(props => ({
+
+
+}))({
+ 
 });
