@@ -23,7 +23,6 @@ export interface ButtonProps_All extends ViewProps {
     callback: () => void,
   ) => void;
 
-
   // Button props
   variant?: 'outlined' | 'contained' | 'text';
   backgroundColor?: string;
@@ -35,12 +34,10 @@ export interface ButtonProps_All extends ViewProps {
   borderColor?: string;
   borderWidth?: number;
 
-
   //Text props
   textColor?: string;
   textSize?: number | string;
   textWeight?: number;
-
 
   //Touchable function props
   onPress?: (event: GestureResponderEvent) => void;
@@ -53,7 +50,7 @@ export interface ButtonProps_All extends ViewProps {
   delayLongPress?: number | undefined;
   delayPressIn?: number | undefined;
   delayPressOut?: number | undefined;
-  hitSlop?:   Insets | undefined; 
+  hitSlop?: Insets | undefined;
   id?: string | undefined;
 }
 export interface Touchable_Function_Props extends PressableStateCallbackType {
@@ -68,7 +65,13 @@ export interface Touchable_Function_Props extends PressableStateCallbackType {
   delayLongPress?: number | undefined;
   delayPressIn?: number | undefined;
   delayPressOut?: number | undefined;
-  hitSlop?:  | Insets | number | undefined; 
+  hitSlop?: Insets | number | undefined;
   id?: string | undefined;
 }
 
+export interface VariantStyleProps {
+  backgroundColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  variant?: string;
+}
