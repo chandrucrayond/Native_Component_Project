@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {ReactNode} from 'react';
 
-export interface ButtonProps_All extends ViewProps {
+export interface ButtonProps_All extends ViewProps, GradientProps {
   children?: ReactNode | string;
   rippleColor?: string;
   rippleOpacity?: number;
@@ -52,6 +52,18 @@ export interface ButtonProps_All extends ViewProps {
   delayPressOut?: number | undefined;
   hitSlop?: Insets | undefined;
   id?: string | undefined;
+
+  colors?: (string | number)[];
+}
+
+export interface GradientProps {
+  colors?: (string | number)[];
+  start?: {x: number; y: number};
+  end?: {x: number; y: number};
+  locations?: number[];
+  useAngle?: boolean;
+  angleCenter?: {x: number; y: number};
+  angle?: number;
 }
 export interface Touchable_Function_Props extends PressableStateCallbackType {
   children?: ReactNode | string;
